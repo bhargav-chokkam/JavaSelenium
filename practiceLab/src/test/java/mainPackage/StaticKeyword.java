@@ -28,8 +28,8 @@ public class StaticKeyword {
 		emp1.name = "bhargav";
 		emp2.empId = 1685688;
 		emp2.name = "Koumya";
-		emp1.lead = "Ashok";
-		emp2.lead = "Kishore";
+//		emp1.lead = "Ashok";
+//		emp2.lead = "Kishore";
 		emp1.show();
 		emp2.show();
 

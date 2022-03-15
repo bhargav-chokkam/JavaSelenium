@@ -5,7 +5,6 @@ public class EnhancedForLoop {
 		EnhancedForLoop obj = new EnhancedForLoop();
 		obj.singleDiamention();
 		obj.multiDiemention();
-
 	}
 
 	public void singleDiamention() {
