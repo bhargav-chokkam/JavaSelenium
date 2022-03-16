@@ -27,6 +27,6 @@ class Substraction extends Addition {// Sub Class
 		for (int i : n) {
 			sum = i;
 		}
-		return sum;
+		return 0;
 	}
 }
