@@ -20,6 +20,7 @@ public class JDBCInfoClass {
 	private String password = "bhargavchokkam";
 
 	public static void main(String[] args) throws Exception {
+//		Used to Load and register JDBC  Driver
 		Class.forName("com.mysql.jdbc.Driver");
 		JDBCInfoClass obj = new JDBCInfoClass();
 //		obj.updateRow();
