@@ -31,7 +31,7 @@ class ArrayDemo {
 
 	public void jaggedArray() {
 		System.out.println("Jagged Array");
-		int sampleNumbers[][] = { { 1, 3 }, { 4, 5, 6,9,10}, { 7, 8, 9 } };
+		int sampleNumbers[][] = { { 1, 3 }, { 4, 5, 6, 9, 10 }, { 7, 8, 9 } };
 		for (int i = 0; i < sampleNumbers.length; i++) {
 			for (int j = 0; j < sampleNumbers[i].length; j++) {
 				System.out.print(sampleNumbers[i][j] + " ");

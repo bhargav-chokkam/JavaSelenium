@@ -9,7 +9,7 @@ package mainPackage;
 public class FinalKeyword {
 
 	public static void main(String[] args) {
-		
+
 		final int constant;
 		constant = 34;
 //		below declaration trying to modify the constant variable which shows compile error
@@ -20,20 +20,19 @@ public class FinalKeyword {
 	}
 
 }
+
 //final class ClassSampleA
-class ClassSampleA
-{
+class ClassSampleA {
 	public void show()
 //	public final void show()
 	{
 		System.out.println("Class A");
 	}
 }
-class ClassSampleB extends ClassSampleA
-{
-	public void show() 
-	{
+
+class ClassSampleB extends ClassSampleA {
+	public void show() {
 		System.out.println("Class B");
-		
+
 	}
 }

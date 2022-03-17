@@ -5,7 +5,6 @@ package mainPackage;
  * To use super class variable use: super.variable
  */
 
-
 public class SuperClassDemo {
 	public static void main(String[] args) {
 		SubClass obj = new SubClass();
