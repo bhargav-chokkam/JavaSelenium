@@ -1,22 +1,22 @@
 package seleniumPackage;
 
-import java.sql.DriverManager;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import com.mysql.cj.jdbc.Driver;
-
-public class BaseClass extends GenericClasses {
+public class BaseClass extends GenericClass {
 
 	public static void main(String[] args) {
 		BaseClass obj = new BaseClass();
-		obj.setupBrowser();
-		String Url = "https://www.facebook.com";
-		obj.getSpecifURL(Url);
-		obj.closeBrowser();
+		obj.launchFB();
 
+//		obj.closeBrowser();
+
+	}
+
+	public void launchFB() {
+		BaseClass ob = new BaseClass();
+		ob.setupBrowser();
+		String Url = "https://www.facebook.com";
+		ob.getSpecficURL(Url);
+		ob.sendKeys("XPath", "//input[@id='email']", "bhargavchokkam");
+		ob.clearField("XPath", "//input[@id='email']");
 	}
 
 }
