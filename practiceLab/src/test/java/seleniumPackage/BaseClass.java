@@ -1,22 +1,22 @@
 package seleniumPackage;
 
+import java.sql.DriverManager;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class BaseClass {
+import com.mysql.cj.jdbc.Driver;
 
-	public static void main(String[] args) throws InterruptedException {
-		String currentDir = System.getProperty("user.dir");
-		System.out.println(currentDir);
-		System.setProperty("webdriver.chrome.driver", currentDir + "/Drivers/chromedriver");
-		WebDriver driver = new ChromeDriver();
-		driver.get("https://facebook.com");
-		driver.manage().window().maximize();
-		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("bhargavchokkam@gmail.com");
-		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("Password");
+public class BaseClass extends BrowserClass {
 
-		driver.close();
+	public static void main(String[] args) {
+		BaseClass obj = new BaseClass();
+		obj.setupBrowser();
+		String Url = "https://www.facebook.com";
+		obj.getSpecifURL(Url);
+		obj.closeBrowser();
+
 	}
 
 }
