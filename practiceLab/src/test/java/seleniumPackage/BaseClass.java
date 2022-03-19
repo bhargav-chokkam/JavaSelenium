@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.mysql.cj.jdbc.Driver;
 
-public class BaseClass extends BrowserClass {
+public class BaseClass extends GenericClasses {
 
 	public static void main(String[] args) {
 		BaseClass obj = new BaseClass();
