@@ -4,19 +4,25 @@ public class BaseClass extends GenericClass {
 
 	public static void main(String[] args) {
 		BaseClass obj = new BaseClass();
-		obj.launchFB();
-
-//		obj.closeBrowser();
+		obj.testMethod();
 
 	}
 
-	public void launchFB() {
-		BaseClass ob = new BaseClass();
-		ob.setupBrowser("chrome");
-		String Url = "https://www.facebook.com";
-		ob.getSpecficURL(Url);
-		ob.sendKeys("XPath", "//input[@id='email']", "bhargavchokkam");
-		ob.clearField("XPath", "//input[@id='email']");
+	public void testMethod() {
+		String browserName = "chrome";
+		BaseClass o = new BaseClass();
+		o.setupBrowser(browserName);
+		o.getSpecficURL("https://www.facebook.com");
+//		o.sendKeys("//input[@id= 'email']", "bhargavchokkam");
+//		o.clearField("//input[@id='email']");
+//		o.clickButton("//button[@name='login']");
+//		o.submitButton("//form[@data-testid='royal_login_form']");
+		o.isDisplayedCheck("//input[@id= 'email']");
+		
+		
+		
+		o.closeBrowser();
+		
 	}
 
 }

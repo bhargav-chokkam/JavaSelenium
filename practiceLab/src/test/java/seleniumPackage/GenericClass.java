@@ -1,6 +1,8 @@
 package seleniumPackage;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
@@ -21,24 +23,25 @@ public class GenericClass {
 	 */
 	public void setupBrowser(String browserName) {
 		String currentDir = System.getProperty("user.dir");
+		boolean browserInstance;
 		System.out.println(currentDir);
 		switch (browserName.toLowerCase()) {
 		case "chrome":
 			System.setProperty("webdriver.chrome.driver", currentDir + "/Drivers/chromedriver");
 			driver = new ChromeDriver();
+			browserInstance = true;
 			break;
 		case "firefox":
 			System.setProperty("webdriver.gecko.driver", currentDir + "/Drivers/geckodriver");
 			driver = new FirefoxDriver();
+			browserInstance = true;
 			break;
-
 		default:
-			System.out.println("****No browser name passed****");
-			System.out.println("Pass Chrome or Firefox");
-			break;
+			System.out.println("Browser not launched");
+			browserInstance = false;
 		}
-
 		driver.manage().window().maximize();
+		System.out.println("Browser Status: " + browserInstance);
 	}
 
 	/*
@@ -49,9 +52,10 @@ public class GenericClass {
 		driver.get(Url);
 		String currentUrl = driver.getCurrentUrl();
 		if (currentUrl.equals(Url + "/")) {
-			System.out.println("The Current Url Loaded in Browser is: " + driver.getCurrentUrl());
+			System.out.println("The Url Loaded in Browser: " + driver.getCurrentUrl());
 		} else {
 			System.out.println("Current Url and Expected Url Mismatched");
+			driver.close();
 		}
 
 	}
@@ -62,73 +66,36 @@ public class GenericClass {
 		System.out.println("***Browser Closed***");
 	}
 
-	public void sendKeys(String elementType, String element, String elementData) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).sendKeys(elementData);
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).sendKeys(elementData);
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
+	public void sendKeys(String element, String elementData) {
+		driver.findElement(By.xpath(element)).sendKeys(elementData);
+		System.out.println(elementData + " entered at given element " + element);
 	}
 
-	public void clearField(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).clear();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).clear();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
+	public void clearField(String element) {
+		System.out.println("Default value at the field is: " + driver.findElement(By.xpath(element)).getText());
+		driver.findElement(By.xpath(element)).clear();
+		System.out.println("Value at the field after clearing is: " + driver.findElement(By.xpath(element)).getText());
 	}
 
-	public void clickButton(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).click();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(elementType)).click();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
+	public void clickButton(String element) {
+		String buttonName = driver.findElement(By.xpath(element)).getText();
+		driver.findElement(By.xpath(element)).click();
+		System.out.println("Clicked on " + buttonName + " button");
 	}
 
-	public void submitButton(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).submit();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).submit();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
+	public void submitButton(String element) {
+		driver.findElement(By.xpath(element)).submit();
+		System.out.println("Submitted Form of Element: " + element);
 	}
 
-	public void isDisplayedCheck(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).isDisplayed();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).isDisplayed();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
+	public void isDisplayedCheck(String element) {
+		boolean check = driver.findElement(By.xpath(element)).isDisplayed();
+		if (check) {
+			System.out.println("Element passed: " + element + " as found");
+		} else {
+			System.out.println("Element passed: " + element + " as not found. Killing execution");
+			driver.close();
+
 		}
 	}
 
@@ -165,9 +132,11 @@ public class GenericClass {
 		switch (elementType.toLowerCase()) {
 		case "xpath":
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
+			System.out.println("Given Element " + element + " of type XPath Found");
 			break;
 		case "cssselector":
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(element))));
+			System.out.println("Given Element " + element + " of type cssSelector Found");
 			break;
 		default:
 			System.out.println("XPath and cssSelector are only Supported");
@@ -182,9 +151,11 @@ public class GenericClass {
 		switch (elementType.toLowerCase()) {
 		case "xpath":
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
+			System.out.println("Given Element " + element + " of type XPath Found");
 			break;
 		case "cssselector":
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(element))));
+			System.out.println("Given Element " + element + " of type cssSelector Found");
 			break;
 		default:
 			System.out.println("XPath and cssSelector are only Supported");
@@ -222,8 +193,8 @@ public class GenericClass {
 		driver.navigate().refresh();
 		System.out.println("***Refreash Successful***");
 	}
-	public void textCompare(String expectedText, String elementType, String element)
-	{
+
+	public void textCompare(String expectedText, String elementType, String element) {
 		switch (elementType.toLowerCase()) {
 		case "xpath":
 			driver.findElement(By.xpath(element)).getText().equalsIgnoreCase(expectedText);
@@ -235,7 +206,43 @@ public class GenericClass {
 			System.out.println("XPath and cssSelector are only Supported");
 			break;
 		}
-		
+
+	}
+
+	public void acceptAlert() {
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+	}
+
+	public void dismissAlert() {
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().dismiss();
+	}
+
+	public void sendKeysAndAccept(String messageData) {
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().sendKeys(messageData);
+		driver.switchTo().alert().accept();
+	}
+
+	public void switchToTabByIndex(int indexValue) {
+		ArrayList<String> tabsList = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabsList.get(indexValue));
+	}
+
+	public void switchToTabByTitle(String expectedTabTitle) {
+		String currentTabName = driver.getWindowHandle();
+		ArrayList<String> tabsList = new ArrayList<String>(driver.getWindowHandles());
+		for (String currentTab : tabsList) {
+			if (driver.switchTo().window(currentTab).getTitle().equalsIgnoreCase(expectedTabTitle)) {
+				System.out
+						.println("Switched to: " + driver.getTitle() + " and the expected tab is: " + expectedTabTitle);
+				break;
+			} else {
+				driver.switchTo().window(currentTabName);
+
+			}
+		}
 	}
 
 }
