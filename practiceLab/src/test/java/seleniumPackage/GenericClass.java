@@ -2,16 +2,17 @@ package seleniumPackage;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -58,7 +59,6 @@ public class GenericClass {
 			System.out.println("Current Url and Expected Url Mismatched");
 			driver.close();
 		}
-
 	}
 
 // Closes the browser
@@ -121,12 +121,10 @@ public class GenericClass {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(waitTime));
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
 			System.out.println("Given Element " + element + "Found");
-
 		} catch (Exception message) {
 			System.out.println("TimeOut Exception: " + message);
 			driver.close();
 		}
-
 	}
 
 	public void fluentWait(String element, int waitTime) {
@@ -143,7 +141,6 @@ public class GenericClass {
 		} else {
 			System.out.println("Title mismatch");
 		}
-
 	}
 
 	public void navigateTo(String Url) {
@@ -168,7 +165,6 @@ public class GenericClass {
 
 	public void textCompare(String expectedText, String element) {
 		driver.findElement(By.xpath(element)).getText().equalsIgnoreCase(expectedText);
-
 	}
 
 	public void acceptAlert() {
@@ -202,9 +198,58 @@ public class GenericClass {
 				break;
 			} else {
 				driver.switchTo().window(currentTabName);
-
 			}
 		}
 	}
 
+	public void scrollByLocation() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,1000)");
+	}
+
+	public void scrollTo() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	}
+
+	public void scrollInToView(String element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement elementDetail = driver.findElement(By.xpath(element));
+		js.executeScript("arguments[0].scrollIntoView();", elementDetail);
+	}
+
+	public void switchFrameByIndex(int index) {
+		driver.switchTo().frame(index);
+	}
+
+	public void switchFrameByName(String FrameName) {
+		driver.switchTo().frame(FrameName);
+	}
+
+	public void switchFrameByElement(String element) {
+		driver.switchTo().frame(driver.findElement(By.xpath(element)));
+	}
+
+	public void selectByInd(int indexValue, String element) {
+		Select option = new Select(driver.findElement(By.xpath(element)));
+		option.selectByIndex(indexValue);
+	}
+
+	public void selectByVal(String value, String element) {
+		Select option = new Select(driver.findElement(By.xpath(element)));
+		option.selectByValue(value);
+	}
+
+	public void selectByText(String optionName, String element) {
+		Select option = new Select(driver.findElement(By.xpath(element)));
+		option.selectByVisibleText(optionName);
+	}
+
+	public void switchToParentFrame() {
+		driver.switchTo().parentFrame();
+	}
+
+	public void switchToDefaultFrame() {
+		driver.switchTo().defaultContent();
+	}
 }
