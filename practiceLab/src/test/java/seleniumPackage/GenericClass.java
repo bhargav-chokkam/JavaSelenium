@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -18,11 +19,25 @@ public class GenericClass {
 	 * SetUpBrowser() is used to launch the requested browser and maximizes the
 	 * screen size
 	 */
-	public void setupBrowser() {
+	public void setupBrowser(String browserName) {
 		String currentDir = System.getProperty("user.dir");
 		System.out.println(currentDir);
-		System.setProperty("webdriver.chrome.driver", currentDir + "/Drivers/chromedriver");
-		driver = new ChromeDriver();
+		switch (browserName.toLowerCase()) {
+		case "chrome":
+			System.setProperty("webdriver.chrome.driver", currentDir + "/Drivers/chromedriver");
+			driver = new ChromeDriver();
+			break;
+		case "firefox":
+			System.setProperty("webdriver.gecko.driver", currentDir + "/Drivers/geckodriver");
+			driver = new FirefoxDriver();
+			break;
+
+		default:
+			System.out.println("****No browser name passed****");
+			System.out.println("Pass Chrome or Firefox");
+			break;
+		}
+
 		driver.manage().window().maximize();
 	}
 
@@ -176,6 +191,51 @@ public class GenericClass {
 			break;
 		}
 
+	}
+
+	public void getTitle(String expectedTitle) {
+		String actualTitle = driver.getTitle();
+		if (actualTitle.equalsIgnoreCase(expectedTitle)) {
+			System.out.println("Recived expected title");
+		} else {
+			System.out.println("Title mismatch");
+		}
+
+	}
+
+	public void navigateTo(String Url) {
+		driver.navigate().to(Url);
+		System.out.println("Navigated to " + Url + " succesfully");
+	}
+
+	public void navigateBack() {
+		driver.navigate().back();
+		System.out.println("***Navigated Back***");
+	}
+
+	public void navigateForward() {
+		driver.navigate().forward();
+		System.out.println("***Navigated Forward***");
+	}
+
+	public void navigateRefreash() {
+		driver.navigate().refresh();
+		System.out.println("***Refreash Successful***");
+	}
+	public void textCompare(String expectedText, String elementType, String element)
+	{
+		switch (elementType.toLowerCase()) {
+		case "xpath":
+			driver.findElement(By.xpath(element)).getText().equalsIgnoreCase(expectedText);
+			break;
+		case "cssselector":
+			driver.findElement(By.cssSelector(element)).getText().equalsIgnoreCase(expectedText);
+			break;
+		default:
+			System.out.println("XPath and cssSelector are only Supported");
+			break;
+		}
+		
 	}
 
 }

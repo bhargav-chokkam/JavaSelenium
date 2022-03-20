@@ -12,7 +12,7 @@ public class BaseClass extends GenericClass {
 
 	public void launchFB() {
 		BaseClass ob = new BaseClass();
-		ob.setupBrowser();
+		ob.setupBrowser("chrome");
 		String Url = "https://www.facebook.com";
 		ob.getSpecficURL(Url);
 		ob.sendKeys("XPath", "//input[@id='email']", "bhargavchokkam");
