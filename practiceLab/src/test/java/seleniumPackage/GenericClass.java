@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -93,75 +94,46 @@ public class GenericClass {
 		if (check) {
 			System.out.println("Element passed: " + element + " as found");
 		} else {
-			System.out.println("Element passed: " + element + " as not found. Killing execution");
-			driver.close();
-
+			System.out.println("Element passed: " + element + " as not found.");
 		}
 	}
 
-	public void isEnabledCheck(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).isEnabled();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).isEnabled();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
+	public void isEnabledCheck(String element) {
+		boolean check = driver.findElement(By.xpath(element)).isEnabled();
+		if (check) {
+			System.out.println("Element passed: " + element + " is enabled");
+		} else {
+			System.out.println("Element passed: " + element + " is not enabled.");
 		}
 	}
 
-	public void isSelectedCheck(String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).isSelected();
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).isSelected();
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
+	public void isSelectedCheck(String element) {
+		boolean check = driver.findElement(By.xpath(element)).isSelected();
+		if (check) {
+			System.out.println("Element passed: " + element + " is selected");
+		} else {
+			System.out.println("Element passed: " + element + " is not selected.");
 		}
 	}
 
-	public void explicitTimeout(String elementType, String element, int waitTime) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(waitTime));
-		switch (elementType.toLowerCase()) {
-		case "xpath":
+	public void explicitTimeout(String element, int waitTime) throws TimeoutException {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(waitTime));
 			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
-			System.out.println("Given Element " + element + " of type XPath Found");
-			break;
-		case "cssselector":
-			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(element))));
-			System.out.println("Given Element " + element + " of type cssSelector Found");
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
+			System.out.println("Given Element " + element + "Found");
+
+		} catch (Exception message) {
+			System.out.println("TimeOut Exception: " + message);
+			driver.close();
 		}
 
 	}
 
-	public void fluentWait(String elementType, String element, int waitTime) {
+	public void fluentWait(String element, int waitTime) {
 		Wait wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(waitTime)).pollingEvery(Duration.ofSeconds(2))
 				.ignoring(NoSuchElementException.class);
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
-			System.out.println("Given Element " + element + " of type XPath Found");
-			break;
-		case "cssselector":
-			wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(element))));
-			System.out.println("Given Element " + element + " of type cssSelector Found");
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
-
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(element))));
+		System.out.println("Given Element " + element + " of type XPath Found");
 	}
 
 	public void getTitle(String expectedTitle) {
@@ -194,18 +166,8 @@ public class GenericClass {
 		System.out.println("***Refreash Successful***");
 	}
 
-	public void textCompare(String expectedText, String elementType, String element) {
-		switch (elementType.toLowerCase()) {
-		case "xpath":
-			driver.findElement(By.xpath(element)).getText().equalsIgnoreCase(expectedText);
-			break;
-		case "cssselector":
-			driver.findElement(By.cssSelector(element)).getText().equalsIgnoreCase(expectedText);
-			break;
-		default:
-			System.out.println("XPath and cssSelector are only Supported");
-			break;
-		}
+	public void textCompare(String expectedText, String element) {
+		driver.findElement(By.xpath(element)).getText().equalsIgnoreCase(expectedText);
 
 	}
 
