@@ -1,0 +1,6 @@
+<facebook>
+<url>https://www.facebook.com/</url>
+<userName>//input[@id='email']</userName>
+<password>//input[@id='pass']</password>
+<credSubmit>//button[@name='login']</credSubmit>
+</facebook>

@@ -16,8 +16,13 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class GenericClass {
-	WebDriver driver;
+public class GenericClass extends TestData {
+	static WebDriver driver;
+	static GenericClass gcobj;
+	static {
+		gcobj = new GenericClass();
+	}
+	
 
 	/*
 	 * SetUpBrowser() is used to launch the requested browser and maximizes the
@@ -51,9 +56,10 @@ public class GenericClass {
 	 * current url
 	 */
 	public void getSpecficURL(String Url) {
-		driver.get(Url);
+		String acturl = gcobj.readElement(Url);
+		driver.get(acturl);
 		String currentUrl = driver.getCurrentUrl();
-		if (currentUrl.equals(Url + "/")) {
+		if (currentUrl.contains(acturl)) {
 			System.out.println("The Url Loaded in Browser: " + driver.getCurrentUrl());
 		} else {
 			System.out.println("Current Url and Expected Url Mismatched");

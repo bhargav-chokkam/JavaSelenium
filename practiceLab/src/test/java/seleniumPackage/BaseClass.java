@@ -1,18 +1,19 @@
 package seleniumPackage;
 
+
 public class BaseClass extends GenericClass {
+	static BaseClass obj;
 
 	public static void main(String[] args) {
-		BaseClass obj = new BaseClass();
+		obj = new BaseClass();
 		obj.testMethod();
 
 	}
 
 	public void testMethod() {
 		String browserName = "chrome";
-		BaseClass o = new BaseClass();
-		o.setupBrowser(browserName);
-		o.getSpecficURL("https://www.facebook.com");
+		obj.setupBrowser(browserName);
+		obj.getSpecficURL("//facebook/url");
 //		o.sendKeys("//input[@id= 'email']", "bhargavchokkam");
 //		o.clearField("//input[@id='email']");
 //		o.clickButton("//button[@name='login']");
@@ -22,9 +23,9 @@ public class BaseClass extends GenericClass {
 //		o.explicitTimeout("//div[text()='Log In']", 5);
 //		o.scrollByLocation();
 //		o.scrollTo();
-		o.scrollInToView("//a[text()='Instagram']");
-		
-		
+//		o.scrollInToView("//a[text()='Instagram']");
+//		
+//		
 //		o.closeBrowser();
 		
 	}
