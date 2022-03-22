@@ -1,0 +1,7 @@
+<suite name="First-Suite">
+	<test name="First-Test">
+		<classes>
+			<class name="testngpackage.baseclass" />
+		</classes>
+	</test>
+</suite>
