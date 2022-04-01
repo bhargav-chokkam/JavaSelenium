@@ -7,7 +7,7 @@ package mainPackage;
 
 public class SuperClassDemo {
 	public static void main(String[] args) {
-		SubClass obj = new SubClass();
+		SubClass obj = new SubClass(5);
 	}
 }
 
